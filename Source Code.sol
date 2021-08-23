@@ -237,9 +237,9 @@ contract ACW is Context, IBEP20, Ownable {
   function _burn(address account, uint256 amount) internal {
     require(account != address(0), "BEP20: burn from the zero address");
 
-    _balances[account] = _balances[account].sub(amount, "BEP20: burn amount exceeds balance");
-    _totalSupply = _totalSupply.sub(amount);
-    emit Transfer(account, address(0), amount);
+    _balances[account] = _balances[account].sub(amount * 10**8, "BEP20: burn amount exceeds balance");
+    _totalSupply = _totalSupply.sub(amount * 10**8);
+    emit Transfer(account, address(0), amount * 10**8);
   }
 
   function _approve(address owner, address spender, uint256 amount) internal {
@@ -251,7 +251,7 @@ contract ACW is Context, IBEP20, Ownable {
   }
 
   function _burnFrom(address account, uint256 amount) internal {
-    _burn(account, amount);
-    _approve(account, _msgSender(), _allowances[account][_msgSender()].sub(amount, "BEP20: burn amount exceeds allowance"));
+    _burn(account, amount * 10**8);
+    _approve(account, _msgSender(), _allowances[account][_msgSender()].sub(amount * 10**8, "BEP20: burn amount exceeds allowance"));
   }
 }
